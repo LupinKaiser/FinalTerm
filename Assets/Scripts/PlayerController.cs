@@ -14,10 +14,13 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayer;
     private bool isTouchingGround;
 
+    private Animator playerAnimation;
+
     // Start is called before the first frame update
     void Start()
     {
         player = GetComponent<Rigidbody2D>();
+        playerAnimation = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -29,10 +32,12 @@ public class PlayerController : MonoBehaviour
         if (direction > 0f)
         {
             player.velocity = new Vector2(direction * speed, player.velocity.y);
+            transform.localScale = new Vector2(1, 1);
         }
         else if (direction < 0f)
         {
             player.velocity = new Vector2(direction * speed, player.velocity.y);
+            transform.localScale = new Vector2(-1, 1);
         }
         else
         {
@@ -43,5 +48,8 @@ public class PlayerController : MonoBehaviour
         {
             player.velocity = new Vector2(player.velocity.x, jumpSpeed);
         }
+
+        playerAnimation.SetFloat("Speed", Mathf.Abs(player.velocity.x));
+        playerAnimation.SetBool("OnGround", isTouchingGround);
     }
 }
