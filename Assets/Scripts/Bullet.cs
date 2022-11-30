@@ -18,11 +18,17 @@ public class Bullet : MonoBehaviour
 	void OnTriggerEnter2D(Collider2D hitInfo)
 	{
 		Enemy enemy = hitInfo.GetComponent<Enemy>();
+		Asteroid asteroid = hitInfo.GetComponent<Asteroid>();
 		if (enemy != null)
 		{
 			enemy.TakeDamage(damage);
 			Destroy(gameObject);
 		}
+		if(asteroid != null)
+        {
+			asteroid.TakeDamage(damage);
+			Destroy(gameObject);
+        }
 		
 	}
 

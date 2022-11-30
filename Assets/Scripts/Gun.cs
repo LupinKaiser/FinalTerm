@@ -7,21 +7,20 @@ public class Gun : MonoBehaviour
 
 	public Transform firePoint;
 	public GameObject bulletPrefab;
-	public float thrust;
+	private Rigidbody2D rb;
 
-	public Rigidbody2D rb;
-	void Start()
-	{
-		rb = GetComponent<Rigidbody2D>();
-	}
+    public void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
-	// Update is called once per frame
-	void Update()
+    // Update is called once per frame
+    void Update()
 	{
 		if (Input.GetButtonDown("Fire1"))
 		{
 			Shoot();
-			rb.AddForce(new Vector2(-5,5));
+			
 		}
 	}
 

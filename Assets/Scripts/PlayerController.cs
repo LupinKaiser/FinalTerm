@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float jumpSpeed = 8f;
     private float direction = 0f;
     private Rigidbody2D player;
+    public float thrust;
 
     public Transform groundCheck;
     public float groundCheckRadius;
@@ -33,12 +34,11 @@ public class PlayerController : MonoBehaviour
         if (direction > 0f)
         {
             player.velocity = new Vector2(direction * speed, player.velocity.y);
-            transform.localScale = new Vector2(1, 1);
+
         }
-        else if (direction < 0f)
+        else if (Input.GetButtonDown("Fire1"))
         {
-            player.velocity = new Vector2(direction * speed, player.velocity.y);
-            transform.localScale = new Vector2(-1, 1);
+            player.AddForce(-Vector2.right * thrust, ForceMode2D.Impulse);
         }
         else
         {
@@ -65,4 +65,5 @@ public class PlayerController : MonoBehaviour
             
         }
     }
+
 }
