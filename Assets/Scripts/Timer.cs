@@ -7,7 +7,7 @@ using TMPro;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField] TMPro timerText;
+    [SerializeField] TextMeshProUGUI timer;
     public float currentTime = 0;
     public float startTime = 10;
 
@@ -18,8 +18,8 @@ public class Timer : MonoBehaviour
 
     public void Update()
     {
-        currentTime -= 1*Time.deltaTime;
-        countdownText.text = currentTime.ToString("Time Left:"+currentTime);
+        currentTime -= Time.deltaTime;
+        timer.text = currentTime.ToString("0");
         if(currentTime <= 0)
         {
             SceneManager.LoadScene("Fail");

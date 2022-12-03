@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public float groundCheckRadius;
     public LayerMask groundLayer;
     private bool isTouchingGround;
+    
 
     private Animator playerAnimation;
 
@@ -38,7 +39,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetButtonDown("Fire1"))
         {
-            player.AddForce(-Vector2.right * thrust, ForceMode2D.Impulse);
+            player.AddForce(-Vector3.right * thrust, ForceMode2D.Impulse);
         }
         else
         {
@@ -61,6 +62,10 @@ public class PlayerController : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
         else if(collision.tag == "Space")
+        {
+            
+        }
+        else if(collision.tag == "Enemy")
         {
             
         }
