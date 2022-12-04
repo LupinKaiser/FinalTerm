@@ -11,12 +11,15 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D player;
     public float thrust;
 
+
     public Transform groundCheck;
     public float groundCheckRadius;
     public LayerMask groundLayer;
     private bool isTouchingGround;
-    
+    public float maxHealth = 3;
+    public float currentHealth;
 
+    public Health healthBar;
     private Animator playerAnimation;
 
     // Start is called before the first frame update
@@ -24,6 +27,8 @@ public class PlayerController : MonoBehaviour
     {
         player = GetComponent<Rigidbody2D>();
         playerAnimation = GetComponent<Animator>();
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
     }
 
     // Update is called once per frame
@@ -53,6 +58,11 @@ public class PlayerController : MonoBehaviour
 
         playerAnimation.SetFloat("Speed", Mathf.Abs(player.velocity.x));
         playerAnimation.SetBool("OnGround", isTouchingGround);
+
+       if(currentHealth == 0)
+        {
+            SceneManager.LoadScene("Fail");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -63,11 +73,12 @@ public class PlayerController : MonoBehaviour
         }
         else if(collision.tag == "Space")
         {
-            
+            SceneManager.LoadScene("Fail");
         }
-        else if(collision.tag == "Enemy")
+        if(collision.tag == "Enemy")
         {
-            
+            currentHealth = currentHealth - 1;
+            healthBar.setHealth(currentHealth);
         }
     }
 
