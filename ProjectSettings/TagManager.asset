@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - NextLevel
   - Win
+  - Asteroid
+  - Void
   layers:
   - Default
   - TransparentFX

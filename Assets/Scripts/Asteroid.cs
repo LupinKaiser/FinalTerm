@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Asteroid : MonoBehaviour
 {
-    public int health = 1;
+	int health = 1;
 	public GameObject deathEffect;
 
 	public void TakeDamage(int damage)
@@ -17,7 +17,17 @@ public class Asteroid : MonoBehaviour
 		}
 	}
 
-	void Die()
+
+	private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
+        {
+            Die();
+        }
+       
+    }
+
+    void Die()
 	{
 		Instantiate(deathEffect, transform.position, Quaternion.identity);
 		Destroy(gameObject);

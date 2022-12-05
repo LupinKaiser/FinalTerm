@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
-        else if(collision.tag == "Space")
+        if(collision.tag == "Space")
         {
             SceneManager.LoadScene("Fail");
         }
@@ -79,6 +79,15 @@ public class PlayerController : MonoBehaviour
         {
             currentHealth = currentHealth - 1;
             healthBar.setHealth(currentHealth);
+        }
+        if (collision.tag == "Asteroid")
+        {
+            currentHealth = currentHealth - 2;
+            healthBar.setHealth(currentHealth);
+        }
+        if(collision.tag == "Void")
+        {
+            SceneManager.LoadScene("Fail");
         }
     }
 
