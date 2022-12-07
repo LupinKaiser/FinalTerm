@@ -10,12 +10,13 @@ public class PlayerController : MonoBehaviour
     private float direction = 0f;
     private Rigidbody2D player;
     public float thrust;
+    private BoxCollider2D playerCollider;
+    
 
 
     public Transform groundCheck;
     public float groundCheckRadius;
     public LayerMask groundLayer;
-    private bool isTouchingGround;
     public float maxHealth = 3;
     public float currentHealth;
 
@@ -29,18 +30,23 @@ public class PlayerController : MonoBehaviour
         playerAnimation = GetComponent<Animator>();
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
+        playerCollider = GetComponent<BoxCollider2D>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         direction = Input.GetAxis("Horizontal");
 
         if (direction > 0f)
         {
             player.velocity = new Vector2(direction * speed, player.velocity.y);
 
+        }
+        else if (direction < 0f)
+        {
+            player.velocity =  new Vector2(direction * speed, player.velocity.y);
         }
         else if (Input.GetButtonDown("Fire1"))
         {
@@ -51,13 +57,13 @@ public class PlayerController : MonoBehaviour
             player.velocity = new Vector2(0, player.velocity.y);
         }
 
-        if (Input.GetButtonDown("Jump") && isTouchingGround)
+        if (Input.GetButtonDown("Jump") && isTouchingGround())
         {
             player.velocity = new Vector2(player.velocity.x, jumpSpeed);
         }
 
         playerAnimation.SetFloat("Speed", Mathf.Abs(player.velocity.x));
-        playerAnimation.SetBool("OnGround", isTouchingGround);
+        playerAnimation.SetBool("OnGround", isTouchingGround());
 
        if(currentHealth == 0)
         {
@@ -79,16 +85,27 @@ public class PlayerController : MonoBehaviour
         {
             currentHealth = currentHealth - 1;
             healthBar.setHealth(currentHealth);
+            FindObjectOfType<AudioManager>().Play("PlayerHit");
+           
         }
         if (collision.tag == "Asteroid")
         {
             currentHealth = currentHealth - 2;
             healthBar.setHealth(currentHealth);
+            FindObjectOfType<AudioManager>().Play("PlayerHit");
+            
         }
         if(collision.tag == "Void")
         {
             SceneManager.LoadScene("Fail");
         }
     }
+
+    private bool isTouchingGround()
+    {
+        RaycastHit2D raycastHit = Physics2D.BoxCast(playerCollider.bounds.center, playerCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
+        return raycastHit.collider != null;
+    }
+
 
 }

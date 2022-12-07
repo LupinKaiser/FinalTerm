@@ -9,6 +9,7 @@ TagManager:
   - Win
   - Asteroid
   - Void
+  - ScreenShake
   layers:
   - Default
   - TransparentFX
